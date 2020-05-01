@@ -1,9 +1,6 @@
 # ProQA
 
-* `datasets.py`: dataloader, different samplers, takes tokenized data
-* `prepro_utils.py`: BERT tokenize data in parallel before running
-* `bert_qa.py`: BERT QA code
-* `train_openqa.py`: train and eval code
+Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR
 
 ## Requirements
 * ``Python 3``

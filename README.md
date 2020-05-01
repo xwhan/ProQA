@@ -19,10 +19,10 @@ gdown https://drive.google.com/uc?id=1hfsfQHShvYsK0gbHItM4B1OONNbgtmrK && unzip 
 The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
 
 ## 3. Retriever pretraining
-### Using a single pretraining file:
+### Use a single pretraining file:
 * Pretraining under the "retrieval" directory: ``sh train_retriever_single.sh``
 
-### Using with clutered pretrianing files:
+### Use clutered pretrianing files:
 #### Generate clusters
 * Generate the paragraph embeddings: ``sh get_para_embed.sh``
 * Generate clusters using the paragraph embeddings: ``python group_paras.py``

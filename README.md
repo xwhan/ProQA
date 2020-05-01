@@ -7,6 +7,7 @@ Resource-efficient method for pretraining a dense corpus index for open-domain Q
 conda create -n proqa -y python=3.6.9 && conda activate proqa
 pip install -r requirements.txt
 ```
+You need use follow [Nvidia Apex repo](https://github.com/NVIDIA/apex) to install Apex if you GPUs support fp16. 
 
 ## 2. Use pretrained index and models
 Download the pretrained models and data from google drive:

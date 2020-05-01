@@ -1,14 +1,21 @@
 # ProQA
 
-Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR
+Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR. Given a question, you could use this code to retrieval relevant paragraphs from Wikipedia and extract answers.
 
-## Requirements
-* ``Python 3.6.9``
-* ``PyTorch 1.4``
-* ``transformers`` from huggingface
-* ``faiss 1.6.3`` 
+## 1. Set up the environments
+```
+conda create -n proqa -y python=3.6.9 && conda activate proqa
+pip install -r requirements.txt
+```
 
-## Use pretrained index and models
+## 2. Use pretrained index and models
+Download the pretrained models and data from google drive:
+```
+pip installl gdown
+gdown https://drive.google.com/uc?id=1cJGbeIg6hekVytcVphZt8_EzubtK1IP- && unzip pretrained_models.zip
+gdown https://drive.google.com/uc?id=1hfsfQHShvYsK0gbHItM4B1OONNbgtmrK && unzip data.zip
+```
+The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
 
 ## Retriever pretraining
 ### Pretraining with a single file:

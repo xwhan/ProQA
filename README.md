@@ -20,7 +20,7 @@ The data folder includes the QA datasets and also the paragraph database ``nq_pa
 
 ## Retriever pretraining
 ### Pretraining with a single file:
-* Pretraining under the ``retrieval'' directory: ``sh train_retriever.sh``
+* Pretraining under the "retrieval" directory: ``sh train_retriever.sh``
 
 ### Pretraining with clusters:
 #### Generate clusters

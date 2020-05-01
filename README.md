@@ -3,11 +3,12 @@
 Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR
 
 ## Requirements
-* ``Python 3``
-* ``Pytorch 1.4``
-* ``tensorboardX``
-* ``transformers``
-* ``faiss``
+* ``Python 3.6.9``
+* ``PyTorch 1.4``
+* ``transformers`` from huggingface
+* ``faiss 1.6.3`` 
+
+## Use pretrained index and models
 
 ## Retriever pretraining
 ### Pretraining with a single file:

@@ -8,9 +8,9 @@ def write_file(file_name, samples):
             f_out.write(_)
 
 
-def group_paras(I, ncentroids, split_path='/home/xwhan/retrieval_data/splits_512/'):
+def group_paras(I, ncentroids, split_path):
     samples = [[] for _ in range(ncentroids)]
-    with open('/data/hongwang/nq_rewrite/db/re_data/retrieve_train.txt') as f_in:
+    with open('../data/retrieve_train.txt') as f_in:
         for i, line in enumerate(f_in):
             samples[I[i][0]].append(line)
     for i, group in enumerate(samples):
@@ -22,9 +22,9 @@ def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_ce
     cfg = faiss.GpuIndexFlatConfig()
     cfg.useFloat16 = False
     cfg.device = gpu_id
-    
+
     d = data.shape[1]
-    if spherical:   
+    if spherical:
         index = faiss.GpuIndexFlatIP(res, d, cfg)
     else:
         index = faiss.GpuIndexFlatL2(res, d, cfg)
@@ -45,8 +45,12 @@ def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_ce
     return D, I
 
 if __name__ == "__main__":
-    train_para_embed_path = "/mnt/edward/home/xwhan/retrieval_data/embed/train_para_embed_3_28_c10000.npy"
-    split_save_path = "/home/xwhan/retrieval_data/final_splits_spherical/"
+    train_para_embed_path = "retriever_data/para_embed.npy"
+    split_save_path = "retriever_dat/data_splits/"
+    if os.path.exists(split_save_path) and os.listdir(split_save_path):
+        print(f"output directory {split_save_path} already exists and is not empty.")
+    if not os.path.exists(split_save_path):
+        os.makedirs(split_save_path, exist_ok=True)
 
     x = np.load(train_para_embed_path)
     x = np.float32(x)

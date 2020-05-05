@@ -1,13 +1,13 @@
 # ProQA
 
-Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR. Given a question, you could use this code to retrieval relevant paragraphs from Wikipedia and extract answers.
+Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR. Given a question, you could use this code to retrieval relevant paragraphs from Wikipedia and extract answers. More details about this method can be found in our paper [https://arxiv.org/pdf/2005.00038.pdf](https://arxiv.org/pdf/2005.00038.pdf).
 
 ## 1. Set up the environments
 ```
 conda create -n proqa -y python=3.6.9 && conda activate proqa
 pip install -r requirements.txt
 ```
-You need use follow [Nvidia Apex repo](https://github.com/NVIDIA/apex) to install Apex if you GPUs support fp16. 
+If you want to used mixed precision training, you need to follow [Nvidia Apex repo](https://github.com/NVIDIA/apex) to install Apex if your GPUs support fp16. 
 
 ## 2. Use pretrained index and models
 Download the pretrained models and data from google drive:

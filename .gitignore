@@ -2,3 +2,6 @@
 /data
 /pretrained_models
 *.zip
+retrieval/logs/
+__MACOSX/
+

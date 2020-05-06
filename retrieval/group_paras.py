@@ -1,6 +1,7 @@
 import numpy as np
 import faiss
-
+import os
+import argparse
 
 def write_file(file_name, samples):
     with open(file_name, 'w') as f_out:
@@ -14,7 +15,7 @@ def group_paras(I, ncentroids, split_path):
         for i, line in enumerate(f_in):
             samples[I[i][0]].append(line)
     for i, group in enumerate(samples):
-        write_file( split_path + 'split_'+str(i)+'.txt', group)
+        write_file(split_path + 'split_'+str(i)+'.txt', group)
 
 def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_centroid=10000000, gpu_id=0, spherical=False):
     # use one gpu
@@ -45,8 +46,17 @@ def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_ce
     return D, I
 
 if __name__ == "__main__":
-    train_para_embed_path = "retriever_data/para_embed.npy"
-    split_save_path = "retriever_dat/data_splits/"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--ncentriods', type=int, default=10000)
+    parser.add_argument('--niter', type=int, default=250)
+    parser.add_argument('--max_points_per_centroid', type=int, default=1000)
+    parser.add_argument('--indexpath', type=str, default=None)
+    parser.add_argument('--spherical', action='store_true')
+    args = parser.parse_args()
+
+
+    train_para_embed_path = "encodings/train_para_embed.npy"
+    split_save_path = "../data/data_splits/"
     if os.path.exists(split_save_path) and os.listdir(split_save_path):
         print(f"output directory {split_save_path} already exists and is not empty.")
     if not os.path.exists(split_save_path):
@@ -55,11 +65,6 @@ if __name__ == "__main__":
     x = np.load(train_para_embed_path)
     x = np.float32(x)
 
-    ncentroids = 10000
-    niter = 250
-    max_points_per_centroid = 1000
-    spherical = True
+    D, I = clusering(x, niter=args.niter, ncentroids=args.ncentroids, max_points_per_centroid=args.max_points_per_centroid, spherical=args.spherical)
 
-    D, I = clusering(x, niter=niter, ncentroids=ncentroids, max_points_per_centroid=max_points_per_centroid, spherical=spherical)
-
-    group_paras(I, ncentroids, split_path=split_save_path)
+    group_paras(I, args.ncentroids, split_path=split_save_path)

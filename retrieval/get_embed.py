@@ -9,13 +9,11 @@ import torch
 from copy import deepcopy
 
 from torch.utils.data import DataLoader
-from retrieval.datasets import ReDataset, ReSampler, re_collate, EmDataset, em_collate
-from retrieval.retriever import BertForRetriever
-from bert_retrieve_qa import BertRetrieveQA
+from datasets import EmDataset, em_collate
+from retriever import BertForRetriever
 from transformers import AdamW, BertConfig, BertTokenizer
-from torch.utils.tensorboard import SummaryWriter
 from utils import move_to_cuda, convert_to_half, AverageMeter
-from retrieval.config import get_args
+from config import get_args
 
 from collections import defaultdict, namedtuple
 import torch.nn.functional as F
@@ -42,24 +40,6 @@ def main():
             raise ImportError(
                 "Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
 
-    # tb logger
-    data_name = args.train_file.split("/")[-1].split('-')[0]
-    model_name = f"{args.prefix}"
-    args.output_dir = os.path.join(args.output_dir, model_name)
-
-    if os.path.exists(args.output_dir) and os.listdir(args.output_dir):
-        print(
-            f"output directory {args.output_dir} already exists and is not empty.")
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir, exist_ok=True)
-
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-                        datefmt='%m/%d/%Y %H:%M:%S',
-                        level=logging.INFO,
-                        handlers=[logging.FileHandler(os.path.join(args.output_dir, "log.txt")),
-                                  logging.StreamHandler()])
-    logger = logging.getLogger(__name__)
-    logger.info(args)
 
     if args.local_rank == -1 or args.no_cuda:
         device = torch.device(
@@ -70,8 +50,6 @@ def main():
         n_gpu = 1
         # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
         torch.distributed.init_process_group(backend='nccl')
-    logger.info("device %s n_gpu %d distributed training %r",
-                device, n_gpu, bool(args.local_rank != -1))
 
     if args.accumulate_gradients < 1:
         raise ValueError("Invalid accumulate_gradients parameter: {}, should be >= 1".format(
@@ -116,22 +94,11 @@ def main():
         tokenizer, args.predict_file, args.max_query_length, args.max_seq_length, is_query_embed)
     eval_dataloader = DataLoader(
         eval_dataset, batch_size=args.predict_batch_size, collate_fn=em_collate, pin_memory=True, num_workers=args.eval_workers)
-    logger.info(f"Num of dev batches: {len(eval_dataloader)}")
 
-    if args.init_checkpoint != "":
-        if args.use_whole_model:
-            whole_model = BertRetrieveQA(bert_config, args)
-            whole_model = load_saved(whole_model, args.init_checkpoint)
-            model = whole_model.retriever
-        else:
-            model = load_saved(model, args.init_checkpoint)
+    assert args.init_checkpoint != ""
+    model = load_saved(model, args.init_checkpoint)
 
-    if type(model) == list:
-        model = [m.to(device) for m in model]
-    else:
-        model.to(device)
-        print(
-            f"number of trainable parameters: {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
+    model.to(device)
 
     if args.do_train:
         no_decay = ['bias', 'LayerNorm.weight']
@@ -170,7 +137,6 @@ def main():
 
     embeds = predict(args, model, eval_dataloader, device, fp16=args.efficient_eval, is_query_embed=is_query_embed)
     np.save(embed_save_path, embeds.cpu().numpy())
-    #logger.info(f"test performance {acc}")
 
 
 def predict(args, model, eval_dataloader, device, fp16=False, is_query_embed=True):

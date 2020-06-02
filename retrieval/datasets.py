@@ -241,7 +241,7 @@ def re_collate(samples):
 
 class FTDataset(Dataset):
     """
-    finetune the Question encoder with 
+    finetune the Question encoder with
     """
 
     def __init__(self,
@@ -284,7 +284,7 @@ class EmDataset(Dataset):
         else:
             sent = sample['text'] if "text" in sample else sample['Paragraph']
 
-        sent_ids = torch.LongTensor(self.tokenizer.encode(sent, max_length=self.max_query_length))
+        sent_ids = torch.LongTensor(self.tokenizer.encode(sent, max_length=self.max_length))
         sent_masks = torch.ones(sent_ids.shape).bool()
 
         return {

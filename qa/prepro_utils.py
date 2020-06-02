@@ -306,13 +306,13 @@ if __name__ == "__main__":
 
     if args.dense_index:
         train_raw = load_openqa_dataset(
-            f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-dense-final.txt", filter_no_answer=filter_)
-        save_path = f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-dense-filtered-tokenized.txt" if filter_ else \
-            f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-dense-tokenized.txt"
+            f"../data/{args.data}/{args.data}-{args.split}-dense-final.txt", filter_no_answer=filter_)
+        save_path = f"../data/{args.data}/{args.data}-{args.split}-dense-filtered-tokenized.txt" if filter_ else \
+            f"../data/{args.data}/{args.data}-{args.split}-dense-tokenized.txt"
     else:
         train_raw = load_openqa_dataset(
-            f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-openqa-p{args.topk}.txt", filter_no_answer=filter_)
-        save_path = f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-openqa-filtered-tokenized-p{args.topk}-all-matched.txt" if filter_ else \
-            f"/data/xwhan/data/{args.data}/{args.data}-{args.split}-openqa-tokenized-p{args.topk}-all-matched.txt"
+            f"../data/{args.data}/{args.data}-{args.split}-openqa-p{args.topk}.txt", filter_no_answer=filter_)
+        save_path = f"../data/{args.data}/{args.data}-{args.split}-openqa-filtered-tokenized-p{args.topk}-all-matched.txt" if filter_ else \
+            f"../data/{args.data}/{args.data}-{args.split}-openqa-tokenized-p{args.topk}-all-matched.txt"
 
     train_tokenized = tokenize_data(train_raw, bert_model_name=args.model_name, save_path=save_path, openqa=True, num_workers=10)

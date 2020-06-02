@@ -83,20 +83,20 @@ def get_args():
     parser.add_argument("--retriever-path", type=str, default="", help="pretrained retriever checkpoint")
 
     parser.add_argument("--raw-train-data", type=str,
-                        default="/home/xwhan/code/DrQA/data/datasets/nq-train.txt")
+                        default="../data/nq-train.txt")
     parser.add_argument("--raw-eval-data", type=str,
-                        default="/home/xwhan/code/DrQA/data/datasets/nq-dev.txt")
+                        default="../data/nq-dev.txt")
     parser.add_argument("--fix-para-encoder", action="store_true")
     parser.add_argument("--db-path", type=str,
-                        default='/home/xwhan/code/DrQA/data/wikipedia/nq_paras.db')
+                        default='../data/nq_paras.db')
     parser.add_argument("--index-path", type=str,
                         default="retrieval/index_data/para_embed_100k.npy")
     parser.add_argument("--matched-para-path", type=str,
-                        default="/home/xwhan/retrieval_data/wq_ft_train_matched.txt")
+                        default="../data/wq_ft_train_matched.txt")
                     
     parser.add_argument("--use-spanbert", action="store_true", help="use spanbert for question answering")
     parser.add_argument("--spanbert-path",
-                        default="/home/xwhan/span_bert", type=str)
+                        default="../data/span_bert", type=str)
     parser.add_argument("--eval-k", default=5, type=int)
     parser.add_argument("--regex", action="store_true", help="for CuratedTrec")
 

@@ -23,7 +23,7 @@ def init():
     PROCESS_TOK = SimpleTokenizer()
     BERT_TOK = BertTokenizer.from_pretrained("bert-base-uncased")
     Finalize(PROCESS_TOK, PROCESS_TOK.shutdown, exitpriority=100)
-    PROCESS_DB = DocDB('/home/xwhan/code/DrQA/data/wikipedia/nq_paras.db')
+    PROCESS_DB = DocDB('../data/nq_paras.db')
     Finalize(PROCESS_DB, PROCESS_DB.close, exitpriority=100)
 
 
@@ -123,7 +123,7 @@ def find_span(example):
     return example
 
 
-def process_ground_paras(retrieved="/data/hongwang/nq_rewrite/db/index_data_new_model/wq_finetuneq_train_10000.txt", save_path="/home/xwhan/retrieval_data/wq_ft_train_matched.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-train.txt", num_workers=40, debug=False, k=10000, match="string"):
+def process_ground_paras(retrieved="../data/wq_finetuneq_train_10000.txt", save_path="../data/wq_ft_train_matched.txt", raw_data="../data/wq-train.txt", num_workers=40, debug=False, k=10000, match="string"):
     retrieved = [json.loads(l) for l in open(retrieved).readlines()]
     raw_data = [json.loads(l) for l in open(raw_data).readlines()]
 
@@ -158,7 +158,7 @@ def process_ground_paras(retrieved="/data/hongwang/nq_rewrite/db/index_data_new_
             g.write(json.dumps(_) + "\n")
 
 
-def debug(retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_after_ft/wq_finetuneq_dev_5000.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-dev.txt", precomputed="/home/xwhan/retrieval_data/wq_ft_dev_matched.txt", k=10):
+def debug(retrieved="../data/wq_finetuneq_dev_5000.txt", raw_data="../data/wq-dev.txt", precomputed="../data/wq_ft_dev_matched.txt", k=10):
     # check wether it reasonable to precompute a paragraph set
     retrieved = [json.loads(l) for l in open(retrieved).readlines()]
     raw_data = [json.loads(l) for l in open(raw_data).readlines()]
@@ -181,33 +181,33 @@ def debug(retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_da
 if __name__ == "__main__":
 
     # trec
-    process_ground_paras(retrieved="/data/xwhan/data/trec/trec_finetuneq_train-20000.txt", save_path="/home/xwhan/retrieval_data/trec_train_matched_20000.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/trec-train.txt", num_workers=30, k=20000, match="regex")
+    process_ground_paras(retrieved="../data/trec/trec_finetuneq_train-20000.txt", save_path="../data/trec_train_matched_20000.txt", raw_data="../data/trec-train.txt", num_workers=30, k=20000, match="regex")
 
     # # wq
-    # process_ground_paras(retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_after_ft/wq_finetuneq_train-combined_15000.txt",
-    #                      save_path="/home/xwhan/retrieval_data/wq_ft_train-combined_matched_15000.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-train-combined.txt", num_workers=30, k=15000)
+    # process_ground_paras(retrieved="../data/wq_finetuneq_train-combined_15000.txt",
+    #                      save_path="../data/wq_ft_train-combined_matched_15000.txt", raw_data="../data/wq-train-combined.txt", num_workers=30, k=15000)
 
     # nq
-    #process_ground_paras(retrieved="/data/hongwang/nq_rewrite/db/index_data_new_model/nq_finetuneq_train_10000.txt",
-    #                     save_path="/home/xwhan/retrieval_data/nq_ft_train_matched.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/nq-train.txt", num_workers=40)
+    #process_ground_paras(retrieved="../data/nq_finetuneq_train_10000.txt",
+    #                     save_path="../data/nq_ft_train_matched.txt", raw_data="../data/nq-train.txt", num_workers=40)
 
 
     # # debug
     # process_ground_paras(
-    #     retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_new_model/wq_finetuneq_dev_5000_fi.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-dev.txt", debug=True, k=5)
+    #     retrieved="../data/wq_finetuneq_dev_5000_fi.txt", raw_data="../data/wq-dev.txt", debug=True, k=5)
     # process_ground_paras(
-    #     retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_new_model/wq_finetuneq_dev.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-dev.txt", debug=True, k=5)
+    #     retrieved="../data/wq_finetuneq_dev.txt", raw_data="../data/wq-dev.txt", debug=True, k=5)
     # process_ground_paras(
-    #     retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_new_model/nq_finetuneq_dev_5000_fi.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/nq-dev.txt", debug=True, k=5)
+    #     retrieved="../data/nq_finetuneq_dev_5000_fi.txt", raw_data="../data/nq-dev.txt", debug=True, k=5)
     # process_ground_paras(
-    #     retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_new_model/nq_finetuneq_dev.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/nq-dev.txt", debug=True, k=5)
+    #     retrieved="../data/nq_finetuneq_dev.txt", raw_data="../data/nq-dev.txt", debug=True, k=5)
     # #debug(k=30)
-    # process_ground_paras(retrieved="/data/hongwang/nq_rewrite/db/index_data_new_model/nq_finetuneq_train_10000.txt",
-    #                      save_path="/home/xwhan/retrieval_data/nq_ft_train_matched.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/nq-train.txt", num_workers=40)
+    # process_ground_paras(retrieved="../data/nq_finetuneq_train_10000.txt",
+    #                      save_path="../data/nq_ft_train_matched.txt", raw_data="../data/nq-train.txt", num_workers=40)
 
 
     # # debug
     # process_ground_paras(
-    #     retrieved="/data/hongwang/nq_rewrite/BERT-QA-Simple/retrieval/index_data_after_ft/wq_finetuneq_dev_5000.txt", raw_data="/home/xwhan/code/DrQA/data/datasets/wq-dev.txt", debug=True, k=30)
+    #     retrieved="../data/wq_finetuneq_dev_5000.txt", raw_data="../data/wq-dev.txt", debug=True, k=30)
     # debug(k=30)
 

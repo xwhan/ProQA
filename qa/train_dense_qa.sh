@@ -13,13 +13,13 @@
 # --efficient_eval \
 # --learning_rate 1e-5 \
 # --fp16 \
-# --raw-train-data /home/xwhan/code/DrQA/data/datasets/nq-train.txt \
-# --raw-eval-data /home/xwhan/code/DrQA/data/datasets/nq-dev-2000.txt \
+# --raw-train-data ../data/nq-train.txt \
+# --raw-eval-data ../data/nq-dev-2000.txt \
 # --seed 42 \
 # --retriever-path retrieval/logs/final_splits_spherical-seed19940817-bsz640-fp16True-retrieve-from94_c1000_continue_from_failed-lr1e-05-bert-base-uncased-filterFalse/checkpoint_100k.pt \
 # --index-path retrieval/index_data/para_embed_100k.npy \
 # --fix-para-encoder \
-# --matched-para-path /home/xwhan/retrieval_data/nq_ft_train_matched_10000.txt \
+# --matched-para-path ../data/nq_ft_train_matched_10000.txt \
 # --shared-norm \
 # --separate
 # --add-select \
@@ -37,13 +37,13 @@
 # --efficient_eval \
 # --learning_rate 1e-5 \
 # --fp16 \
-# --raw-train-data /home/xwhan/code/DrQA/data/datasets/wq-train-combined.txt \
-# --raw-eval-data /home/xwhan/code/DrQA/data/datasets/wq-test.txt \
+# --raw-train-data ../data/wq-train-combined.txt \
+# --raw-eval-data ../data/wq-test.txt \
 # --seed 42 \
 # --retriever-path retrieval/logs/final_splits_spherical-seed19940817-bsz640-fp16True-retrieve-from94_c1000_continue_from_failed-lr1e-05-bert-base-uncased-filterFalse/checkpoint_100k.pt \
 # --index-path retrieval/index_data/para_embed_100k.npy \
 # --fix-para-encoder \
-# --matched-para-path /home/xwhan/retrieval_data/wq_ft_train-combined_matched_15000.txt \
+# --matched-para-path ../data/wq_ft_train-combined_matched_15000.txt \
 # --shared-norm \
 # --add-select \
 # --no-joint \
@@ -68,14 +68,14 @@
 # --efficient_eval \
 # --learning_rate 1e-5 \
 # --fp16 \
-# --raw-train-data /home/xwhan/code/DrQA/data/datasets/trec-train.txt \
-# --raw-eval-data /home/xwhan/code/DrQA/data/datasets/trec-dev.txt \
+# --raw-train-data ../data/trec-train.txt \
+# --raw-eval-data ../data/trec-dev.txt \
 # --seed 3 \
 # --retriever-path retrieval/logs/final_splits_spherical-seed19940817-bsz640-fp16True-retrieve-from94_c1000_continue_from_failed-lr1e-05-bert-base-uncased-filterFalse/checkpoint_100k.pt \
 # --index-path retrieval/index_data/para_embed_100k.npy \
 # --fix-para-encoder \
 # --num_train_epochs 10 \
-# --matched-para-path /home/xwhan/retrieval_data/trec_train_matched_20000.txt \
+# --matched-para-path ../data/trec_train_matched_20000.txt \
 # --regex \
 # --shared-norm \
 # --separate \
@@ -97,14 +97,14 @@ CUDA_VISIBLE_DEVICES=3 python train_retrieve_qa.py \
 --efficient_eval \
 --learning_rate 1e-5 \
 --fp16 \
---raw-train-data /home/xwhan/code/DrQA/data/datasets/trec-train.txt \
---raw-eval-data /home/xwhan/code/DrQA/data/datasets/trec-dev.txt \
+--raw-train-data ../data/trec-train.txt \
+--raw-eval-data ../data/trec-dev.txt \
 --seed 3 \
 --retriever-path  retrieval/logs/retrieve_train.txt-seed31-bsz640-fp16True-baseline_no_cluster_from_failed_continue-lr1e-05-bert-base-uncased-filterTrue/checkpoint_40000.pt \
 --index-path retrieval/index_data/para_embed_ablation_40k.npy \
 --fix-para-encoder \
 --num_train_epochs 10 \
---matched-para-path /home/xwhan/retrieval_data/trec_train_matched_20000.txt \
+--matched-para-path ../data/trec_train_matched_20000.txt \
 --regex \
 --shared-norm \
 # --separate \

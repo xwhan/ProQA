@@ -415,7 +415,7 @@ class OnlineSampler(object):
                         
 if __name__ == "__main__":
     index_path = "retrieval/index_data/para_embed_3_28_c10000.npy"
-    raw_data = "/home/xwhan/code/DrQA/data/datasets/nq-train.txt"
+    raw_data = "../data/nq-train.txt"
 
 
     from transformers import BertConfig, BertTokenizer

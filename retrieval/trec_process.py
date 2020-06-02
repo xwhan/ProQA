@@ -5,7 +5,7 @@ from collections import defaultdict
 import numpy as np
 import faiss
 
-def prepare_corpus(path="/home/xwhan/retrieval_data/trec-2019/collection.tsv", save_path="/home/xwhan/retrieval_data/trec-2019/msmarco_paras.txt"):
+def prepare_corpus(path="../data/trec-2019/collection.tsv", save_path="../data/trec-2019/msmarco_paras.txt"):
     corpus = []
     for line in tqdm(open(path).readlines()):
         line = line.strip()
@@ -16,9 +16,9 @@ def prepare_corpus(path="/home/xwhan/retrieval_data/trec-2019/collection.tsv", s
             g.write(json.dumps(_) + "\n")
 
 def extract_labels(
-    input="/home/xwhan/retrieval_data/trec-2019/qrels.train.tsv", 
-    output="/home/xwhan/retrieval_data/trec-2019/msmacro-train.txt",
-    queries="/home/xwhan/retrieval_data/trec-2019/queries.train.tsv"
+    input="../data/trec-2019/qrels.train.tsv", 
+    output="../data/trec-2019/msmacro-train.txt",
+    queries="../data/trec-2019/queries.train.tsv"
     ):
     # id2queries 
     qid2query = {}
@@ -47,14 +47,14 @@ def extract_labels(
 
 
 def debug():
-    top1000_dev = open("/home/xwhan/retrieval_data/trec-2019/top1000.dev").readlines()
+    top1000_dev = open("../data/trec-2019/top1000.dev").readlines()
     qid2top10000 = defaultdict(list)
     for l in top1000_dev:
         qid2top10000[int(l.split("\t")[0])].append(int(l.split("\t")[1]))
     print(len(qid2top10000))
 
     processed_dev = [json.loads(l) for l in tqdm(open(
-        "/home/xwhan/retrieval_data/trec-2019/processed/dev.txt").readlines())]
+        "../data/trec-2019/processed/dev.txt").readlines())]
     qid2ground = {_["qid"]: _["labels"] for _ in processed_dev}
 
     covered = []
@@ -66,7 +66,7 @@ def debug():
     print(np.mean(covered))
 
 
-def retrieve_topk(index_path="/home/xwhan/retrieval_data/trec-2019/embeds/msmarco_paras_embed.npy", query_embeds="/home/xwhan/retrieval_data/trec-2019/embeds/msmarco-train-query.npy", query_input="/home/xwhan/retrieval_data/trec-2019/msmacro-train.txt", output="/home/xwhan/retrieval_data/trec-2019/processed/train.txt"):
+def retrieve_topk(index_path="../data/trec-2019/embeds/msmarco_paras_embed.npy", query_embeds="../data/trec-2019/embeds/msmarco-train-query.npy", query_input="../data/trec-2019/msmacro-train.txt", output="../data/trec-2019/processed/train.txt"):
     d = 128
     xq = np.load(query_embeds).astype('float32')
     xb = np.load(index_path).astype('float32')
@@ -96,9 +96,9 @@ def retrieve_topk(index_path="/home/xwhan/retrieval_data/trec-2019/embeds/msmarc
 
 if __name__ == "__main__":
     # prepare_corpus()
-    # extract_labels(input="/home/xwhan/retrieval_data/trec-2019/qrels.dev.small.tsv",
-    #                output="/home/xwhan/retrieval_data/trec-2019/msmacro-dev-small.txt",
-    #                queries="/home/xwhan/retrieval_data/trec-2019/queries.dev.tsv")
+    # extract_labels(input="../data/trec-2019/qrels.dev.small.tsv",
+    #                output="../data/trec-2019/msmacro-dev-small.txt",
+    #                queries="../data/trec-2019/queries.dev.tsv")
 
     # debug()
 

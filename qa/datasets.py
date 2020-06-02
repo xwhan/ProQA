@@ -297,7 +297,7 @@ class top5k_generator(object):
 
 
 if __name__ == "__main__":
-    data_path = "/data/xwhan/data/mrqa-train/SQuAD-tokenized.jsonl"
+    data_path = "../data/mrqa-train/SQuAD-tokenized.jsonl"
     tokenized_data = [json.loads(_.strip())
                       for _ in open(data_path).readlines()]
     q_lens = np.array([len(item['q_subtoks']) for item in tokenized_data])

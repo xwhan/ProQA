@@ -11,7 +11,7 @@ If you want to used mixed precision training, you need to follow [Nvidia Apex re
 
 ## 2. Download data (including the corpus, paragraphs paired with the generated questions, etc.)
 ```
-gdown https://drive.google.com/uc?id=1EFbRoGu1WARHEqIvjwlrksn56mx8xIOD && unzip data.zip
+gdown https://drive.google.com/uc?id=1-9BKTa82wL_CXKtwSlD_2lqfZpEmSkLl && unzip proqa_data.zip -d /data
 ```
 The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
 

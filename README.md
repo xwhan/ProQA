@@ -11,7 +11,7 @@ If you want to used mixed precision training, you need to follow [Nvidia Apex re
 
 ## 2. Download data (including the corpus, paragraphs paired with the generated questions, etc.)
 ```
-gdown https://drive.google.com/uc?id=1-9BKTa82wL_CXKtwSlD_2lqfZpEmSkLl && unzip proqa_data.zip -d /data
+gdown https://drive.google.com/uc?id=1-9BKTa82wL_CXKtwSlD_2lqfZpEmSkLl && unzip proqa_data.zip
 ```
 The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
 
@@ -29,7 +29,7 @@ CUDA_VISIBLE_DEVICES=0 python get_embed.py \
     --do_predict \
     --predict_batch_size 512 \
     --bert_model_name bert-base-uncased \
-    --efficient_eval \
+    --fp16 \
     --predict_file ../data/WebQuestions-test.txt \
     --init_checkpoint ../pretrained_models/retriever.pt \
     --is_query_embed \
@@ -38,15 +38,15 @@ CUDA_VISIBLE_DEVICES=0 python get_embed.py \
 
 * Retrieval topk (k=80) paragraphs from the corpus and evaluate recall with simple string matching
 ```
-python eval_retrieval.py ../data/WebQuestions-test.txt ../pretrained_models/para_embed.npy ../data/wq_test_query_embed.npy ../data/wiki_paras.db
+python eval_retrieval.py ../data/WebQuestions-test.txt ../pretrained_models/para_embed.npy ../data/wq_test_query_embed.npy ../data/nq_paras.db
 ```
 The arguments are the dataset file, dense corpus index, question embeddings and the paragraph database. The results should be like:
 ```
 Top 80 Recall for 2032 QA pairs: 0.7568897637795275 ...
-Top 5 Recall for 2032 QA pairs: 0.468996062992126 ...
-Top 10 Recall for 2032 QA pairs: 0.5674212598425197 ...
+Top 5 Recall for 2032 QA pairs: 0.468503937007874 ...
+Top 10 Recall for 2032 QA pairs: 0.5679133858267716 ...
 Top 20 Recall for 2032 QA pairs: 0.6441929133858267 ...
-Top 50 Recall for 2032 QA pairs: 0.7253937007874016 ...
+Top 50 Recall for 2032 QA pairs: 0.7263779527559056 ...
 ```
 
 ### Retrieval Demo

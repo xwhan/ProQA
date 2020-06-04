@@ -71,7 +71,7 @@ This script will use the unclustered the data for pretraining. After certain upd
 ```
 mkdir encodings
 CUDA_VISIBLE_DEVICES=0 python get_embed.py --do_predict --prefix eval-para \
-    --predict_batch_size 2048 \
+    --predict_batch_size 300 \
     --bert_model_name bert-base-uncased \
     --efficient_eval \
     --predict_file ../data/retrieve_train.txt \
@@ -93,4 +93,5 @@ Clustering hyperparameter settings such as num of clusters can be found in `grou
 ```
 
 ## 4. QA finetuning
+* Generate the paragraph dense index under "retrieval" directory: ``./get_para_embed.sh``
 * Finetune the pretraining model on the QA dataset under "qa" directory: ``./train_dense_qa.sh``

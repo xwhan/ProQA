@@ -19,6 +19,7 @@ def group_paras(I, ncentroids, split_path):
 
 def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_centroid=10000000, gpu_id=0, spherical=False):
     # use one gpu
+    '''
     res = faiss.StandardGpuResources()
     cfg = faiss.GpuIndexFlatConfig()
     cfg.useFloat16 = False
@@ -29,6 +30,12 @@ def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_ce
         index = faiss.GpuIndexFlatIP(res, d, cfg)
     else:
         index = faiss.GpuIndexFlatL2(res, d, cfg)
+    '''
+    d = data.shape[1]
+    if spherical:
+        index = faiss.IndexFlatIP(d)
+    else:
+        index = faiss.IndexFlatL2(d)
 
     clus = faiss.Clustering(d, ncentroids)
     clus.verbose = True
@@ -47,7 +54,7 @@ def clusering(data, niter=1000, verbose=True, ncentroids=1024, max_points_per_ce
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ncentriods', type=int, default=10000)
+    parser.add_argument('--ncentroids', type=int, default=10000)
     parser.add_argument('--niter', type=int, default=250)
     parser.add_argument('--max_points_per_centroid', type=int, default=1000)
     parser.add_argument('--indexpath', type=str, default=None)

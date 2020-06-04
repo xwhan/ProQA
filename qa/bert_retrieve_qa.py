@@ -4,12 +4,14 @@ from torch.nn import CrossEntropyLoss, BCEWithLogitsLoss
 import torch
 import torch.nn.functional as F
 
-from retrieval.retriever import BertForRetriever
+import sys
+sys.path.append('../retrieval')
+from retriever import BertForRetriever
 
 
 class BertRetrieveQA(nn.Module):
 
-    def __init__(self, 
+    def __init__(self,
         config,
         args
         ):
@@ -23,7 +25,7 @@ class BertRetrieveQA(nn.Module):
             self.bert = BertModel.from_pretrained(args.spanbert_path)
         else:
             self.bert = BertModel.from_pretrained(args.bert_model_name)
-        
+
         # parameters from pretrained index
         self.retriever = BertForRetriever(config, args)
         if args.retriever_path != "":
@@ -33,7 +35,7 @@ class BertRetrieveQA(nn.Module):
             config.hidden_size, 2)
         self.qa_drop = nn.Dropout(args.qa_drop)
         self.shared_norm = args.shared_norm
-        
+
         if self.add_select:
             self.select_outputs = nn.Linear(config.hidden_size, 1)
 
@@ -48,7 +50,7 @@ class BertRetrieveQA(nn.Module):
             p.requires_grad = False
         for p in self.retriever.proj_c.parameters():
             p.requires_grad = False
-    
+
     def freeze_retriever(self):
         for p in self.retriever.parameters():
             p.requires_grad = False
@@ -138,11 +140,11 @@ class BertRetrieveQA(nn.Module):
                 loss_tensor = torch.cat([t.unsqueeze(1) for t in start_losses], dim=1) + torch.cat([t.unsqueeze(1) for t in end_losses], dim=1)
                 log_prob = - loss_tensor
                 log_prob = log_prob.float().masked_fill(log_prob == 0, float('-inf')).type_as(log_prob)
-            
+
             # marginal probabily for each paragraph
             probs = torch.exp(log_prob)
             marginal_probs = torch.sum(probs, dim=1)
-            
+
             # joint or separate loss functions
             if self.separate:
                 m_prob = [marginal_probs[idx] for idx in marginal_probs.nonzero()]
@@ -151,8 +153,8 @@ class BertRetrieveQA(nn.Module):
                     start_logits.size(0)).long()-1).sum()
                 else:
                     span_loss = - torch.log(torch.sum(torch.cat(m_prob)))
-                total_loss = span_loss + select_loss + early_loss if self.add_select else span_loss + early_loss 
-                
+                total_loss = span_loss + select_loss + early_loss if self.add_select else span_loss + early_loss
+
             else:
                 if self.add_select:
                     rank_probs = select_probs
@@ -162,12 +164,12 @@ class BertRetrieveQA(nn.Module):
                 if len(joint_prob) == 0:
                     joint_loss = loss_fct(start_logits, start_logits.new_zeros(
                         start_logits.size(0)).long()-1).sum()
-                else:   
+                else:
                     joint_loss = - torch.log(torch.sum(torch.cat(joint_prob)))
                 total_loss = joint_loss + early_loss
 
             return {"loss": total_loss}
-            
+
         if self.add_select:
             return {"start_logits": start_logits, "end_logits": end_logits, "rank_logits": rank_logits, "select_logits": select_logits.view(1, -1)}
         else:

@@ -1,6 +1,6 @@
 # ProQA
 
-Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR. Given a question, you could use this code to retrieval relevant paragraphs from Wikipedia and extract answers. More details about this method can be found in our paper [https://arxiv.org/pdf/2005.00038.pdf](https://arxiv.org/pdf/2005.00038.pdf).
+Resource-efficient method for pretraining a dense corpus index for open-domain QA and IR. Given a question, you could use this code to retrieval relevant paragraphs from Wikipedia and extract answers.
 
 ## 1. Set up the environments
 ```
@@ -48,13 +48,6 @@ Top 10 Recall for 2032 QA pairs: 0.5679133858267716 ...
 Top 20 Recall for 2032 QA pairs: 0.6441929133858267 ...
 Top 50 Recall for 2032 QA pairs: 0.7263779527559056 ...
 ```
-
-### Retrieval Demo
-TODO
-
-### Test the Final QA Performance
-TODO
-
 
 ## 3. Retriever pretraining
 ### Use a single pretraining file:

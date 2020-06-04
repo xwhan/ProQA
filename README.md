@@ -11,14 +11,15 @@ If you want to used mixed precision training, you need to follow [Nvidia Apex re
 
 ## 2. Download data (including the corpus, paragraphs paired with the generated questions, etc.)
 ```
-gdown https://drive.google.com/uc?id=1-9BKTa82wL_CXKtwSlD_2lqfZpEmSkLl && unzip proqa_data.zip
+gdown https://drive.google.com/uc?id=17IMQ5zzfkCNsTZNJqZI5KveoIsaG2ZDt && unzip data.zip
+cd data && gdown https://drive.google.com/uc?id=1T1SntmAZxJ6QfNBN39KbAHcMw0JR5MwL
 ```
 The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
 
 ## 2. Use pretrained index and models
 Download the pretrained models and data from google drive:
 ```
-gdown https://drive.google.com/uc?id=1cJGbeIg6hekVytcVphZt8_EzubtK1IP- && unzip pretrained_models.zip
+gdown https://drive.google.com/uc?id=1fDRHsLk5emLqHSMkkoockoHjRSOEBaZw && unzip pretrained_models.zip
 ```
 
 ### Test the Retrieval Performance Before QA finetuning
@@ -66,7 +67,7 @@ mkdir encodings
 CUDA_VISIBLE_DEVICES=0 python get_embed.py --do_predict --prefix eval-para \
     --predict_batch_size 300 \
     --bert_model_name bert-base-uncased \
-    --efficient_eval \
+    --fp16 \
     --predict_file ../data/retrieve_train.txt \
     --init_checkpoint ../pretrained_models/retriever.pt \
     --embed_save_path encodings/train_para_embed.npy \

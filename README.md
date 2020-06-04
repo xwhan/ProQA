@@ -14,7 +14,7 @@ If you want to used mixed precision training, you need to follow [Nvidia Apex re
 gdown https://drive.google.com/uc?id=17IMQ5zzfkCNsTZNJqZI5KveoIsaG2ZDt && unzip data.zip
 cd data && gdown https://drive.google.com/uc?id=1T1SntmAZxJ6QfNBN39KbAHcMw0JR5MwL
 ```
-The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. 
+The data folder includes the QA datasets and also the paragraph database ``nq_paras.db`` which can be used with sqlite3. **If the command line fails to download the file, please use your brower instead.**
 
 ## 2. Use pretrained index and models
 Download the pretrained models and data from google drive:

@@ -61,7 +61,7 @@ class BertRetrieveQA(nn.Module):
         outputs = self.bert(input_ids, attention_mask, token_type_ids)
         sequence_output = outputs[0]
 
-        logits = self.qa_drop(self.qa_outputs(sequence_output))
+        logits = self.qa_outputs(self.qa_drop(sequence_output))
         outs = [o.squeeze(-1) for o in logits.split(1, dim=-1)]
         outs = [o.float().masked_fill(batch["paragraph_mask"].ne(1), -1e10).type_as(o)
                 for o in outs]

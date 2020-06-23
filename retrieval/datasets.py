@@ -257,49 +257,49 @@ class FTDataset(Dataset):
 class EmDataset(Dataset):
 
     def __init__(self,
-        tokenizer,
-        data_path,
-        max_query_length,
-        max_length,
-        is_query_embed
-        ):
+                 tokenizer,
+                 data_path,
+                 max_query_length,
+                 max_length,
+                 is_query_embed,
+                 ):
         super().__init__()
         self.is_query_embed = is_query_embed
         self.tokenizer = tokenizer
-        print(f"Loading data from {data_path}")
-        self.data = [json.loads(_.strip()) for _ in open(data_path).readlines()]
 
-        self.max_query_length = max_query_length
-        self.max_length = max_length
-        self.group_indexs = []
-        num_group = 3
-        indexs = list(range(len(self.data)))
-        for i in range(num_group):
-            self.group_indexs.append(indexs[i::num_group])
+        print(f"Loading data from {data_path}")
+        self.data = [json.loads(_.strip())
+                     for _ in tqdm(open(data_path).readlines())]
+
+        self.max_length = max_query_length if is_query_embed else max_length
+        print(f"Max sequence length: {self.max_length}")
+
 
     def __getitem__(self, index):
         sample = self.data[index]
         if self.is_query_embed:
             sent = sample['question']
         else:
-            sent = sample['text'] if "text" in sample else sample['Paragraph']
+            sent = sample['text']
 
-        sent_ids = torch.LongTensor(self.tokenizer.encode(sent, max_length=self.max_length))
+        sent_ids = torch.LongTensor(
+                self.tokenizer.encode(sent, max_length=self.max_length))
         sent_masks = torch.ones(sent_ids.shape).bool()
 
         return {
-                'input_ids': sent_ids,
-                'input_mask': sent_masks,
-                }
+            'input_ids': sent_ids,
+            'input_mask': sent_masks,
+        }
 
     def __len__(self):
         return len(self.data)
+
 
 def em_collate(samples):
     if len(samples) == 0:
         return {}
 
     return {
-            'input_ids': collate_tokens([s['input_ids'] for s in samples], 0),
-            'input_mask': collate_tokens([s['input_mask'] for s in samples], 0),
-        }
+        'input_ids': collate_tokens([s['input_ids'] for s in samples], 0),
+        'input_mask': collate_tokens([s['input_mask'] for s in samples], 0),
+    }
